@@ -1,0 +1,107 @@
+version: '3.3'
+
+services:
+
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+      - COLLECTOR_PORT=6831
+      - AGENT_HOST=jaeger
+      - AGENT_PORT=6831
+
+    networks:
+      - my-network
+
+
+
+
+  ms1_login:
+    image: harshzf2/train_ticket_ms1_login
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node1
+    ports:
+      - "9001:9001"
+    networks:
+      - my-network
+    depends_on:
+      - jaeger
+
+  ms6_user_db:
+    image: harshzf2/train_ticket_ms6_user_db
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node2
+    ports:
+      - "9006:9006"
+      - "27017:27017"
+    environment:
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      MONGO_DB: mydatabase
+    networks:
+      - my-network
+    depends_on:
+      - jaeger
+      - ms1_login
+      - user_db
+      - mongo
+
+  user_db:
+    image: mysql:latest
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node2
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_DATABASE: user_db
+      MYSQL_USER: sql_user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root_password
+    networks:
+      - my-network
+
+
+  mongo:
+    image: mongo:latest
+    networks:
+      - my-network
+
+
+  ms14_mail:
+    image: harshzf2/train_ticket_ms14_mail
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node3
+    ports:
+      - "9014:9014"
+    networks:
+      - my-network
+    depends_on:
+      - jaeger
+      - ms1_login
+
+
+networks:
+  my-network:
+    external: true

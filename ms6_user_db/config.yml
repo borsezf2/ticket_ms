@@ -1,0 +1,15 @@
+pyms:
+  services:
+    metrics: true
+    requests:
+      propagate_headers: true
+    tracer:
+      enabled: true
+      client: "jaeger"
+      host: "10.5.16.212"
+      component_name: "ms6_user_db"
+  config:
+    debug: true
+    APP_NAME: "ms6_user_db"
+
+    

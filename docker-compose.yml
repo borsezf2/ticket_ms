@@ -1,0 +1,44 @@
+version: '3.3'
+
+services:
+  ms1_login:
+    build: ./ms1_login
+    ports:
+      - "9001:9001"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms1_login
+
+
+  ms6_user_db:
+    build: ./ms6_user_db
+    ports:
+      - "9006:9006"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms6_user_db
+    depends_on:
+      - user_db
+  
+  user_db:
+    image: mysql:latest
+    environment:
+      MYSQL_DATABASE: user_db
+      MYSQL_USER: sql_user
+      MYSQL_PASSWORD: password
+      MYSQL_ROOT_PASSWORD: root_password
+    ports:
+      - "3306:3306"
+
+  ms14_mail:
+    build: ./ms14_mail
+    ports:
+      - "9014:9014"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms14_mail
+    depends_on:
+      - ms1_login
+
+networks:
+  my-network:

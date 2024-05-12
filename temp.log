@@ -1,0 +1,4 @@
+{"message": "Response <Response [200]>", 
+"timestamp": "2024-05-09T05:07:26.430868Z", 
+"severity": "DEBUG", "service": "ms6_user_db", 
+"trace": "ceb6db0fffe19937", "span": "abdebd8014dda886", "parent": ""}
