@@ -24,13 +24,18 @@ logger.addHandler(handler) # adds handler to the werkzeug WSGI logger
 
 def log_this(request):
     ts = str(time.time())
-    app.logger.info("\nTrace_LOG_START:,TS={} \n{}".format(ts,request.headers))
-    logger.info("LOG_START_wsgi ,TS={}".format(ts))
-    logger.info("headers = \n{}".format(request.headers))
+    app.logger.info("\nTrace_LOG_START:,TS={}".format(ts))
+    app.logger.info("\nheaders:,TS={}".format(ts,request.headers))
+    # logger.info("LOG_START_wsgi ,TS={}".format(ts))
+    # logger.info("headers = \n{}".format(request.headers))
     pid_str = str(getpid())
     tid_str = str(threading.get_native_id())
-    logger.info("PID = \n{}".format(pid_str))
-    logger.info("TID = \n{}".format(tid_str))
+    # logger.info("PID = \n{}".format(pid_str))
+    # logger.info("TID = \n{}".format(tid_str))
+    app.logger.info("\nPID={}".format(pid_str))
+    app.logger.info("\nTID={}".format(tid_str))
+    print("## TEST PRINT ##")
+
 
 
 
@@ -38,9 +43,7 @@ def log_this(request):
 @app.route('/') 
 def home():
     log_this(request)
-    val = str(app.ms)
-    print("## val = ",val)
-    return 'ms1_working fine' + val
+    return 'ms1_working fine'
 
 # Define a route for the homepage
 @app.route('/login', methods=["GET","POST"])

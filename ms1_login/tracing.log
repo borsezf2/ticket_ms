@@ -1,0 +1,24 @@
+DEBUG:pyms:Searching file in ENV[PYMS_CONFIGMAP_FILE]: config.yml...
+DEBUG:pyms:[CONF] Configmap config.yml found
+DEBUG:pyms:Searching file in ENV[PYMS_CONFIGMAP_FILE]: config.yml...
+DEBUG:pyms:Init crypt <class 'pyms.crypt.driver.CryptNone'>
+DEBUG:pyms:Searching file in ENV[PYMS_CONFIGMAP_FILE]: config.yml...
+DEBUG:pyms:Init crypt <class 'pyms.crypt.driver.CryptNone'>
+DEBUG:pyms:Init crypt <class 'pyms.crypt.driver.CryptNone'>
+DEBUG:pyms:Init crypt <class 'pyms.crypt.driver.CryptNone'>
+DEBUG:pyms:Init crypt <class 'pyms.crypt.driver.CryptNone'>
+DEBUG:pyms:Init crypt <class 'pyms.crypt.driver.CryptNone'>
+DEBUG:pyms:Searching file in ENV[PYMS_CONFIGMAP_FILE]: config.yml...
+DEBUG:pyms:Init service metrics
+DEBUG:pyms:Searching file in ENV[PYMS_CONFIGMAP_FILE]: config.yml...
+DEBUG:pyms:Init service requests
+DEBUG:pyms:Searching file in ENV[PYMS_CONFIGMAP_FILE]: config.yml...
+DEBUG:pyms:Init service tracer
+DEBUG:pyms:Searching file in ENV[PYMS_CONFIGMAP_FILE]: config.yml...
+DEBUG:pyms:Init crypt <class 'pyms.crypt.driver.CryptNone'>
+INFO:jaeger_tracing:Initializing Jaeger Tracer with UDP reporter
+DEBUG:asyncio:Using selector: EpollSelector
+INFO:jaeger_tracing:Using sampler ConstSampler(True)
+INFO:jaeger_tracing:opentracing.tracer initialized to <jaeger_client.tracer.Tracer object at 0x7f1d8ebdf190>[app_name=ms1_login]
+WARNING:werkzeug: * Debugger is active!
+INFO:werkzeug: * Debugger PIN: 292-697-086
