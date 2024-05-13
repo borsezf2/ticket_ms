@@ -3,8 +3,13 @@ docker-compose up
 
 docker-compose down
 
-
+# add worker node
 docker swarm join --token SWMTKN-1-05vbkgjzpn3lcteelzghr864okqfivvqcttkw8lwrutudzutyn-6pg0w9ktb9zdhjr8tpn0kru7h 10.5.30.76:2377
+
+# add manager node
+docker swarm join --token SWMTKN-1-05vbkgjzpn3lcteelzghr864okqfivvqcttkw8lwrutudzutyn-ak2jnyelybh3ou16xnd6lvqal 10.5.30.76:2377
+
+
 
 #change label names
 docker node ls

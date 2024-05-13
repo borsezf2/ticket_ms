@@ -15,12 +15,35 @@ from jaeger_client import Config
 from pymongo import MongoClient
 import os
 import random
+import logging
+import time
+import subprocess
+import threading
+from os import getpid
+
+
+logging.basicConfig(filename='tracing.log', level=logging.DEBUG)
 
 
 # Create a Flask app instance
 ms = Microservice()
 app = ms.create_app()
 
+# app = Flask(__name__)
+
+logger = logging.getLogger('werkzeug') # grabs underlying WSGI logger
+handler = logging.FileHandler('wsgi_logs.log') # creates handler for the log file
+logger.addHandler(handler) # adds handler to the werkzeug WSGI logger
+
+def log_this(request):
+    ts = str(time.time())
+    app.logger.info("\nTrace_LOG_START:,TS={} \n{}".format(ts,request.headers))
+    logger.info("LOG_START_wsgi ,TS={}".format(ts))
+    logger.info("headers = \n{}".format(request.headers))
+    pid_str = str(getpid())
+    tid_str = str(threading.get_native_id())
+    logger.info("PID = \n{}".format(pid_str))
+    logger.info("TID = \n{}".format(tid_str))
 
 # MySQL Configuration
 app.config['MYSQL_HOST'] = 'user_db'
@@ -52,6 +75,7 @@ def home():
 # Define a route for the homepage
 @app.route('/login', methods=['POST'])
 def login():
+    log_this(request)
     post_data = json.loads(request.data)
     data = {"key":"logged in!!"}
     # r = app.ms.requests.get("http://10.5.16.212:9006",data=json.dumps(data))
@@ -81,6 +105,7 @@ def login():
 
 @app.route('/login_2', methods=['GET'])
 def login2():
+    log_this(request)
     data = {"key":"logged in!!"}
     # r = app.ms.requests.get("http://10.5.16.212:9006",data=json.dumps(data))
     # print("## r = ",r)
@@ -97,6 +122,7 @@ def login2():
 
 @app.route('/sql_test', methods=['GET'])
 def sql_test():
+    log_this(request)
     try:
         
         # Create a cursor object to interact with the database
@@ -130,6 +156,7 @@ def sql_test():
 
 
 def insertSQL():
+
     # Create a cursor object to interact with the database
     cursor = conn.cursor()
 
@@ -163,7 +190,7 @@ tracer = opentracing.Tracer()
 
 @app.route('/sql_test2', methods=['GET'])
 def sql_test2():
-
+    log_this(request)
     app.logger.info("There are my headers: \n{}".format(request.headers))
     app.logger.info("tracer: \n{}".format(tracer))
 
@@ -207,6 +234,7 @@ db = client[mongo_db]
 # Route to get data from MongoDB
 @app.route('/mongo_data')
 def get_data():
+    log_this(request)
     data = db["user_db"].find_one()  # Change 'collection_name' to your collection name
     return str(data)
 
@@ -233,6 +261,7 @@ def insert_data(num_records):
 # Route to get data from MongoDB
 @app.route('/mongo_in')
 def set_data():
+    log_this(request)
     insert_data(10) # Change 'collection_name' to your collection name
     return "DONE"
 
