@@ -7,7 +7,7 @@ services:
       - "9001:9001"
     networks:
       - my-network
-    image: harshzf2/train_ticket_ms1_login
+    image: usatpath01/train_ticket_ms1_login
 
 
   ms6_user_db:
@@ -16,7 +16,7 @@ services:
       - "9006:9006"
     networks:
       - my-network
-    image: harshzf2/train_ticket_ms6_user_db
+    image: usatpath01/train_ticket_ms6_user_db
     depends_on:
       - user_db
   
@@ -36,7 +36,7 @@ services:
       - "9014:9014"
     networks:
       - my-network
-    image: harshzf2/train_ticket_ms14_mail
+    image: usatpath01/train_ticket_ms14_mail
     depends_on:
       - ms1_login
 

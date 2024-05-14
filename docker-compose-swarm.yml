@@ -27,7 +27,7 @@ services:
 
 
   ms1_login:
-    image: harshzf2/train_ticket_ms1_login
+    image: usatpath01/train_ticket_ms1_login
     deploy:
       replicas: 1
       placement:
@@ -41,7 +41,7 @@ services:
       - jaeger
 
   ms6_user_db:
-    image: harshzf2/train_ticket_ms6_user_db
+    image: usatpath01/train_ticket_ms6_user_db
     deploy:
       replicas: 1
       placement:
@@ -87,7 +87,7 @@ services:
 
 
   ms14_mail:
-    image: harshzf2/train_ticket_ms14_mail
+    image: usatpath01/train_ticket_ms14_mail
     deploy:
       replicas: 1
       placement:
