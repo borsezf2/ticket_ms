@@ -89,7 +89,8 @@ def login():
     result = cursor.fetchall()
 
     if len(result)==1:
-        r = app.ms.requests.get("http://10.5.16.213:9014")
+        #r = app.ms.requests.get("http://10.5.16.213:9014")
+        r = app.ms.requests.get("http://10.5.20.145:9014")
         custom_response = app.response_class(
                 response=json.dumps({"msg":1}),
                 mimetype='application/json',
@@ -109,7 +110,8 @@ def login2():
     data = {"key":"logged in!!"}
     # r = app.ms.requests.get("http://10.5.16.212:9006",data=json.dumps(data))
     # print("## r = ",r)
-    r = app.ms.requests.get("http://10.5.16.213:9014")
+    #r = app.ms.requests.get("http://10.5.16.213:9014")
+    r = app.ms.requests.get("http://10.5.20.145:9014")
 
     custom_response = Response(json.dumps(data), status=200, content_type='application/json')    
     custom_response = app.response_class(

@@ -1,6 +1,24 @@
 version: '3.3'
 
 services:
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"
+      - "5775:5775/udp"
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "5778:5778"
+      - "14268:14268"
+      - "14250:14250"
+      - "9411:9411"
+
+    environment:
+      - COLLECTOR_ZIPKIN_HTTP_PORT=9411
+      - COLLECTOR_PORT=6831
+      - AGENT_HOST=jaeger
+      - AGENT_PORT=6831
+      
   ms1_login:
     build: ./ms1_login
     ports:
@@ -8,27 +26,60 @@ services:
     networks:
       - my-network
     image: usatpath01/train_ticket_ms1_login
-
-
-  ms6_user_db:
-    build: ./ms6_user_db
-    ports:
-      - "9006:9006"
-    networks:
-      - my-network
-    image: usatpath01/train_ticket_ms6_user_db
     depends_on:
-      - user_db
-  
+      - jaeger
+      
+
   user_db:
     image: mysql:latest
+    ports:
+      - "3306:3306"    
     environment:
       MYSQL_DATABASE: user_db
       MYSQL_USER: sql_user
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root_password
+    networks:
+      - my-network
+    healthcheck:
+      test: ["CMD", "mysqladmin" ,"ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+
+
+  ms6_user_db:
+    build: ./ms6_user_db
+
+    networks:
+      - my-network
+    image: usatpath01/train_ticket_ms6_user_db
     ports:
-      - "3306:3306"
+      - "9006:9006"
+      - "27017:27017"
+    environment:
+      MONGO_HOST: mongo
+      MONGO_PORT: 27017
+      MONGO_DB: mydatabase
+      MYSQL_HOST: user_db
+      MYSQL_PORT: 3306
+      MYSQL_USER: sql_user
+      MYSQL_PASSWORD: password
+      MYSQL_DATABASE: user_db
+    # depends_on:
+    #   - jaeger
+    #   - ms1_login
+    #   - user_db
+    #   - mongo
+    depends_on:
+      user_db:
+        condition: service_healthy
+  
+  
+  
+  mongo:
+    image: mongo:latest
+    networks:
+      - my-network
 
   ms14_mail:
     build: ./ms14_mail
@@ -39,6 +90,7 @@ services:
     image: usatpath01/train_ticket_ms14_mail
     depends_on:
       - ms1_login
+      - jaeger
 
 networks:
   my-network:

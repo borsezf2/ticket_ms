@@ -54,7 +54,9 @@ def login():
     except:
         pass
 
-    response = app.ms.requests.post("http://10.5.16.215:9006/login",data=json.dumps(data))
+    #response = app.ms.requests.post("http://10.5.16.215:9006/login",data=json.dumps(data))
+    response = app.ms.requests.post("http://10.5.20.145:9006/login",data=json.dumps(data))
+    
     response_data = response.text
     return response_data
     response_data = json.loads(response_data)
@@ -72,7 +74,8 @@ def login():
 def login3():
     log_this(request)
     data = {"user":"Harshzf2", "password":"123"}
-    response = app.ms.requests.get("http://10.5.16.213:9014")
+    #response = app.ms.requests.get("http://10.5.16.213:9014")
+    response = app.ms.requests.get("http://10.5.20.145:9014")
     return "response_data"
 
 
