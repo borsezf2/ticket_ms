@@ -1,13 +1,75 @@
-from flask import Flask
+import json
+from flask import Flask,request
+import requests
+from pyms.flask.app import Microservice
+
+import logging
+import time
+import subprocess
+import threading
+from os import getpid
+
+
+logging.basicConfig(filename='tracing.log', level=logging.DEBUG)
+
 
 # Create a Flask app instance
-app = Flask(__name__)
+ms = Microservice()
+app = ms.create_app()
+
+# app = Flask(__name__)
+
+logger = logging.getLogger('werkzeug') # grabs underlying WSGI logger
+handler = logging.FileHandler('wsgi_logs.log') # creates handler for the log file
+logger.addHandler(handler) # adds handler to the werkzeug WSGI logger
+def log_this(request):
+    ts = str(time.time())
+    app.logger.info("\nTrace_LOG_START:,TS={}".format(ts))
+    app.logger.info("\nheaders:,TS={}".format(ts,request.headers))
+    # logger.info("LOG_START_wsgi ,TS={}".format(ts))
+    # logger.info("headers = \n{}".format(request.headers))
+    pid_str = str(getpid())
+    tid_str = str(threading.get_native_id())
+    # logger.info("PID = \n{}".format(pid_str))
+    # logger.info("TID = \n{}".format(tid_str))
+    app.logger.info("\nPID={}".format(pid_str))
+    app.logger.info("\nTID={}".format(tid_str))
+
 
 # Define a route for the homepage
-@app.route('/')
+@app.route('/') 
 def home():
-    return 'Hello, World!'
+    log_this(request)
+    return 'ms4_working' 
+
+
+
+@app.route('/search_ticket', methods=["GET","POST"])
+def search_ticket():
+    log_this(request)
+    response = app.ms.requests.get("http://10.5.16.212:9008/search_ticket")
+    response = app.ms.requests.get("http://10.5.16.212:9018/show_ads")
+    return "This is your ticket details"
+
+@app.route('/ticket_pdf', methods=["GET","POST"])
+def ticket_pdf():
+    log_this(request)
+    response = app.ms.requests.get("http://10.5.16.212:9009/ticket_pdf")
+    response = app.ms.requests.get("http://10.5.16.212:9018/show_ads")
+
+    return "downloaded"
+
+
+
+# @app.route('/cancel_ticket', methods=["GET","POST"])
+# def cancel_ticket():
+#     log_this(request)
+#     response = app.ms.requests.get("http://10.5.16.212:9005/cancel_ticket")
+#     response = app.ms.requests.get("http://10.5.16.212:9018/show_ads")
+
+#     return "downloaded"
+
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True,host="0.0.0.0",port=9000)
+    app.run(debug=True,host="0.0.0.0",port=9004)

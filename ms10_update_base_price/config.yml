@@ -1,0 +1,17 @@
+pyms:
+  services:
+    metrics: true
+    requests:
+      propagate_headers: true
+    
+    tracer:
+      client: "jaeger"
+      host: "10.5.16.212"
+      component_name: "ms10_update_base_price"
+    
+  config:
+    debug: true
+    APP_NAME: "ms10_update_base_price"
+  
+
+    

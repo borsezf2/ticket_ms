@@ -5,6 +5,10 @@ docker-compose down
 
 # add worker node
 docker swarm join --token SWMTKN-1-05vbkgjzpn3lcteelzghr864okqfivvqcttkw8lwrutudzutyn-6pg0w9ktb9zdhjr8tpn0kru7h 10.5.30.76:2377
+docker swarm join --token SWMTKN-1-05vbkgjzpn3lcteelzghr864okqfivvqcttkw8lwrutudzutyn-6pg0w9ktb9zdhjr8tpn0kru7h 10.5.30.76:2377
+docker swarm join --token SWMTKN-1-4cvc90h5tdrgbvfq755e4sj01h28jen0d67cba56k5ttgu6njd-c09jeccprjyztqlpclbnta1fm 10.5.30.75:2377
+docker swarm join --token SWMTKN-1-4cvc90h5tdrgbvfq755e4sj01h28jen0d67cba56k5ttgu6njd-c09jeccprjyztqlpclbnta1fm 10.5.30.75:2377
+docker swarm join --token SWMTKN-1-2dhyjwd9ffumcj2ivrydes5jh68b4hf2qhvtgf256y898j9cej-csjcnp928l1fkbg9fa2cecu7v 10.5.30.76:2377
 
 # add manager node
 docker swarm join --token SWMTKN-1-05vbkgjzpn3lcteelzghr864okqfivvqcttkw8lwrutudzutyn-ak2jnyelybh3ou16xnd6lvqal 10.5.30.76:2377
@@ -37,3 +41,19 @@ docker ps -a
 
 #remove all images
 docker rmi $(docker images -q)
+
+#service status after stack up swarm
+docker service ls
+docker service logs id
+
+#get node ip 
+docker node inspect ID --format '{{ .Status.Addr  }}'
+sudo docker node update --label-add environment=newname id
+
+#remove node from swarm
+docker swarm leave (from node)
+docker node rm id id id (from manager)
+
+#create a network
+docker network create --driver overlay my-network
+

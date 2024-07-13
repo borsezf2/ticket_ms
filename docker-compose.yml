@@ -1,6 +1,19 @@
 version: '3.3'
 
 services:
+
+
+
+  ms0_register:
+    build: ./ms0_register
+    ports:
+      - "9000:9000"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms0_register
+
+
+
   ms1_login:
     build: ./ms1_login
     ports:
@@ -8,6 +21,38 @@ services:
     networks:
       - my-network
     image: harshzf2/train_ticket_ms1_login
+  
+  ms2_search_train:
+    build: ./ms2_search_train
+    ports:
+      - "9002:9002"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms2_search_train
+
+  ms3_book_train:
+    build: ./ms3_book_train
+    ports:
+      - "9003:9003"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms3_book_train
+
+  ms4_search_ticket:
+    build: ./ms4_search_ticket
+    ports:
+      - "9004:9004"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms4_search_ticket
+
+  ms5_cancel_ticket:
+    build: ./ms5_cancel_ticket
+    ports:
+      - "9005:9005"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms5_cancel_ticket
 
 
   ms6_user_db:
@@ -19,7 +64,7 @@ services:
     image: harshzf2/train_ticket_ms6_user_db
     depends_on:
       - user_db
-  
+
   user_db:
     image: mysql:latest
     environment:
@@ -29,6 +74,80 @@ services:
       MYSQL_ROOT_PASSWORD: root_password
     ports:
       - "3306:3306"
+    networks:
+      - my-network
+
+  ms7_train_db:
+    build: ./ms7_train_db
+    ports:
+      - "9007:9007"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms7_train_db
+    depends_on:
+      - user_db
+
+  ms8_ticket_db:
+    build: ./ms8_ticket_db
+    ports:
+      - "9008:9008"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms8_ticket_db
+    depends_on:
+      - user_db
+
+  ms9_ticket_pdf:
+    build: ./ms9_ticket_pdf
+    ports:
+      - "9009:9009"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms9_ticket_pdf
+    depends_on:
+      - user_db
+
+  ms10_update_base_price:
+    build: ./ms10_update_base_price
+    ports:
+      - "9010:9010"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms10_update_base_price
+    depends_on:
+      - user_db
+
+  ms11_discount_sub:
+    build: ./ms11_discount_sub
+    ports:
+      - "9011:9011"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms11_discount_sub
+    depends_on:
+      - user_db
+
+  ms12_payment:
+    build: ./ms12_payment
+    ports:
+      - "9012:9012"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms12_payment
+    depends_on:
+      - user_db
+
+  ms13_send_sms:
+    build: ./ms13_send_sms
+    ports:
+      - "9013:9013"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms13_send_sms
+    depends_on:
+      - user_db
+  
+  
 
   ms14_mail:
     build: ./ms14_mail
@@ -37,6 +156,86 @@ services:
     networks:
       - my-network
     image: harshzf2/train_ticket_ms14_mail
+    depends_on:
+      - ms1_login
+
+  ms15_add_train:
+    build: ./ms15_add_train
+    ports:
+      - "9015:9015"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms15_add_train
+
+  ms16_check_admin:
+    build: ./ms16_check_admin
+    ports:
+      - "9016:9016"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms16_check_admin
+
+  ms17_update_train:
+    build: ./ms17_update_train
+    ports:
+      - "9016:9016"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms17_update_train
+  
+  ms18_show_ads:
+    build: ./ms18_show_ads
+    ports:
+      - "9018:9018"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms18_show_ads
+    depends_on:
+      - ms1_login
+
+
+  ms19_add_ads:
+    build: ./ms19_add_ads
+    ports:
+      - "9019:9019"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms19_add_ads
+
+  # ms20_admin_db:
+  #   build: ./ms20_admin_db
+  #   ports:
+  #     - "9020:9020"
+  #   networks:
+  #     - my-network
+  #   image: harshzf2/train_ticket_ms20_admin_db
+
+  ms21_ads_db:
+    build: ./ms21_ads_db
+    ports:
+      - "9021:9021"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms21_ads_db
+
+  ms22_offer_mail:
+    build: ./ms22_offer_mail
+    ports:
+      - "9022:9022"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms22_offer_mail
+    depends_on:
+      - ms1_login
+
+
+  ms50_front_end:
+    build: ./ms50_front_end
+    ports:
+      - "9050:9050"
+    networks:
+      - my-network
+    image: harshzf2/train_ticket_ms50_front_end
     depends_on:
       - ms1_login
 

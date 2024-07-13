@@ -43,7 +43,7 @@ def log_this(request):
 @app.route('/') 
 def home():
     log_this(request)
-    return 'ms1_working fine'
+    return 'ms1_working good'
 
 # Define a route for the homepage
 @app.route('/login', methods=["GET","POST"])
@@ -57,7 +57,7 @@ def login():
     except:
         pass
 
-    response = app.ms.requests.post("http://10.5.16.215:9006/login",data=json.dumps(data))
+    response = app.ms.requests.post("http://10.5.16.212:9006/login",data=json.dumps(data))
     response_data = response.text
     return response_data
     response_data = json.loads(response_data)
@@ -75,8 +75,17 @@ def login():
 def login3():
     log_this(request)
     data = {"user":"Harshzf2", "password":"123"}
-    response = app.ms.requests.get("http://10.5.16.213:9014")
+    response = app.ms.requests.get("http://10.5.16.212:9014")
     return "response_data"
+
+
+# @app.route('/search_train', methods=["GET","POST"])
+# def search_train():
+#     log_this(request)
+#     data = {"user":"Harshzf2", "password":"123","key":"SF KGP rath"}
+#     response = app.ms.requests.get("http://10.5.16.212:9002/search_train")
+#     return "SF KGP rath is on monday: be ready to be late"
+
 
 
 # Run the app
