@@ -92,14 +92,14 @@ def login():
     result = cursor.fetchall()
 
     if len(result)==1:
-        r = app.ms.requests.get("http://10.5.16.213:9014")
+        r = app.ms.requests.get("http://10.5.16.212:9014")
         custom_response = app.response_class(
                 response=json.dumps({"msg":1}),
                 mimetype='application/json',
                 status=200
             )
     else:
-        r = app.ms.requests.get("http://10.5.16.213:9014")
+        r = app.ms.requests.get("http://10.5.16.212:9014")
         custom_response = app.response_class(
                 response=json.dumps({"msg":0}),
                 mimetype='application/json',
@@ -113,7 +113,7 @@ def login2():
     data = {"key":"logged in!!"}
     # r = app.ms.requests.get("http://10.5.16.212:9006",data=json.dumps(data))
     # print("## r = ",r)
-    r = app.ms.requests.get("http://10.5.16.213:9014")
+    r = app.ms.requests.get("http://10.5.16.212:9014")
 
     custom_response = Response(json.dumps(data), status=200, content_type='application/json')    
     custom_response = app.response_class(
@@ -270,6 +270,18 @@ def set_data():
     return "DONE"
 
 
+
+@app.route('/add_ticket_to_user')
+def add_ticket_to_user():
+    log_this(request)
+    # insert_data(10) # Change 'collection_name' to your collection name
+    return "DONE"
+
+@app.route('/register')
+def register():
+    log_this(request)
+    # insert_data(10) # Change 'collection_name' to your collection name
+    return "DONE"
 
 # Run the app
 if __name__ == '__main__':

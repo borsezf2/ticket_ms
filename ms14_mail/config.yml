@@ -6,7 +6,7 @@ pyms:
     
     tracer:
       client: "jaeger"
-      host: "10.5.16.215"
+      host: "10.5.16.212"
       component_name: "ms14_mail"
     
   config:

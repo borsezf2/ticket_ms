@@ -21,32 +21,105 @@ services:
       - AGENT_PORT=6831
 
     networks:
-      - my-network
+      - my_overlay_network
 
 
-
+  ms0_register:
+    image: harshzf2/train_ticket_ms0_register
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node252
+          # - node.labels.role == worker
+    ports:
+      - "9000:9000"
+    networks:
+      - my_overlay_network
+    
 
   ms1_login:
     image: harshzf2/train_ticket_ms1_login
     deploy:
-      replicas: 1
+      replicas: 2
       placement:
         constraints:
-          - node.labels.environment == node1
+          - node.labels.environment == node252
+          # - node.labels.role == worker
     ports:
       - "9001:9001"
     networks:
-      - my-network
+      - my_overlay_network
     depends_on:
       - jaeger
 
-  ms6_user_db:
-    image: harshzf2/train_ticket_ms6_user_db
+  ms2_search_train:
+    image: harshzf2/train_ticket_ms2_search_train
     deploy:
       replicas: 1
       placement:
         constraints:
-          - node.labels.environment == node2
+          - node.labels.environment == node252
+          # - node.labels.role == worker
+    ports:
+      - "9002:9002"
+    networks:
+      - my_overlay_network
+    depends_on:
+      - jaeger
+
+
+  ms3_book_train:
+    image: harshzf2/train_ticket_ms3_book_train
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node252
+          # - node.labels.role == worker
+    ports:
+      - "9003:9003"
+    networks:
+      - my_overlay_network
+    depends_on:
+      - jaeger
+
+  ms4_search_ticket:
+    image: harshzf2/train_ticket_ms4_search_ticket
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node252
+          # - node.labels.role == worker
+    ports:
+      - "9004:9004"
+    networks:
+      - my_overlay_network
+
+  ms5_cancel_ticket:
+    image: harshzf2/train_ticket_ms5_cancel_ticket
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node212
+          # - node.labels.role == worker
+    ports:
+      - "9005:9005"
+    networks:
+      - my_overlay_network
+
+
+
+  ms6_user_db:
+    image: harshzf2/train_ticket_ms6_user_db
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.labels.environment == node212
+          # - node.labels.role == worker
     ports:
       - "9006:9006"
       - "27017:27017"
@@ -55,7 +128,7 @@ services:
       MONGO_PORT: 27017
       MONGO_DB: mydatabase
     networks:
-      - my-network
+      - my_overlay_network
     depends_on:
       - jaeger
       - ms1_login
@@ -68,7 +141,8 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.labels.environment == node2
+          - node.labels.environment == node212
+          # - node.labels.role == worker
     ports:
       - "3306:3306"
     environment:
@@ -77,31 +151,248 @@ services:
       MYSQL_PASSWORD: password
       MYSQL_ROOT_PASSWORD: root_password
     networks:
-      - my-network
+      - my_overlay_network
+  
+  ms7_train_db:
+    image: harshzf2/train_ticket_ms7_train_db
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node212
+          # - node.labels.role == worker
+    ports:
+      - "9007:9007"
+    networks:
+      - my_overlay_network
+    
 
+  ms8_ticket_db:
+    image: harshzf2/train_ticket_ms8_ticket_db
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node212
+          # - node.labels.role == worker
+    ports:
+      - "9008:9008"
+    networks:
+      - my_overlay_network
 
+  ms9_ticket_pdf:
+    image: harshzf2/train_ticket_ms9_ticket_pdf
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node212
+          # - node.labels.role == worker
+    ports:
+      - "9009:9009"
+    networks:
+      - my_overlay_network
+
+  
+  ms10_update_base_price:
+    image: harshzf2/train_ticket_ms10_update_base_price
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node215
+          # - node.labels.role == worker
+    ports:
+      - "9010:9010"
+    networks:
+      - my_overlay_network
+
+  ms11_discount_sub:
+    image: harshzf2/train_ticket_ms11_discount_sub
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node215
+          # - node.labels.role == worker
+    ports:
+      - "9011:9011"
+    networks:
+      - my_overlay_network
+
+  ms12_payment:
+    image: harshzf2/train_ticket_ms12_payment
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node213
+          # - node.labels.role == worker
+    ports:
+      - "9012:9012"
+    networks:
+      - my_overlay_network
+
+  
+  ms13_send_sms:
+    image: harshzf2/train_ticket_ms13_send_sms
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node213
+          # - node.labels.role == worker
+    ports:
+      - "9013:9013"
+    networks:
+      - my_overlay_network
+
+  
   mongo:
     image: mongo:latest
     networks:
-      - my-network
+      - my_overlay_network
 
 
   ms14_mail:
     image: harshzf2/train_ticket_ms14_mail
     deploy:
-      replicas: 1
+      replicas: 2
       placement:
         constraints:
-          - node.labels.environment == node3
+          - node.labels.environment == node213
+          # - node.labels.role == worker
     ports:
       - "9014:9014"
     networks:
-      - my-network
+      - my_overlay_network
     depends_on:
       - jaeger
       - ms1_login
 
+  ms15_add_train:
+    image: harshzf2/train_ticket_ms15_add_train
+    deploy:
+      replicas: 2
+      placement:
+        constraints:
+          - node.labels.environment == node213
+          # - node.labels.role == worker
+    ports:
+      - "9015:9015"
+    networks:
+      - my_overlay_network
+
+  ms16_check_admin:
+    image: harshzf2/train_ticket_ms16_check_admin
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node213
+          # - node.labels.role == worker
+    ports:
+      - "9016:9016"
+    networks:
+      - my_overlay_network
+
+  ms17_update_train:
+    image: harshzf2/train_ticket_ms17_update_train
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node213
+          # - node.labels.role == worker
+    ports:
+      - "9017:9017"
+    networks:
+      - my_overlay_network
+
+
+  ms18_show_ads:
+    image: harshzf2/train_ticket_ms18_show_ads
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node216
+          # - node.labels.role == worker
+    ports:
+      - "9018:9018"
+    networks:
+      - my_overlay_network
+
+  ms19_add_ads:
+    image: harshzf2/train_ticket_ms19_add_ads
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node216
+          # - node.labels.role == worker
+    ports:
+      - "9019:9019"
+    networks:
+      - my_overlay_network
+
+  # ms20_admin_db:
+  #   image: harshzf2/train_ticket_ms20_admin_db
+  #   deploy:
+  #     replicas: 1
+  #     placement:
+  #       constraints:
+  #         - node.labels.environment == node216
+  #         # - node.labels.role == worker
+  #   ports:
+  #     - "9020:9020"
+  #   networks:
+  #     - my_overlay_network
+
+  ms21_ads_db:
+    image: harshzf2/train_ticket_ms21_ads_db
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node216
+          # - node.labels.role == worker
+    ports:
+      - "9021:9021"
+    networks:
+      - my_overlay_network
+
+  ms22_offer_mail:
+    image: harshzf2/train_ticket_ms22_offer_mail
+    deploy:
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.environment == node216
+          # - node.labels.role == worker
+    ports:
+      - "9022:9022"
+    networks:
+      - my_overlay_network
+
+  ms50_front_end:
+    image: harshzf2/train_ticket_ms50_front_end
+    deploy:
+      replicas: 4
+      placement:
+        constraints:
+          - node.labels.environment == node215
+          # - node.labels.role == worker
+    ports:
+      - "9050:9050"
+    networks:
+      - my_overlay_network
+    
+
+
 
 networks:
-  my-network:
+  my_overlay_network:
     external: true
+  # my_overlay_network:
+  #   external: true

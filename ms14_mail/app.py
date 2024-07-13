@@ -42,11 +42,19 @@ def home():
     log_this(request)
     return 'ms14_working XX = ' 
 
+
+####################################################################################################
+####################################################################################################
+####################################################################################################
+
+
 # Define a route for the homepage
 @app.route('/send_mail', methods=["POST","GET"])
 def login():
     log_this(request)
     data = {"email":"sent"}
+    
+    response = app.ms.requests.get("http://10.5.16.212:9022/offer_mail")
     custom_response = app.response_class(
             response=json.dumps(data),
             mimetype='application/json',
