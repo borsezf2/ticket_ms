@@ -1,0 +1,102 @@
+
+###########################################################################
+1000 req 10 conn
+###########################################################################
+
+Total requests: 1000
+
+Endpoint: http://10.5.16.212:9050/ticket_pdf
+Requests sent: 102
+Average latency: 0.0444 seconds
+Minimum latency: 0.0264 seconds
+Maximum latency: 0.1821 seconds
+
+Endpoint: http://10.5.16.212:9050/search_ticket
+Requests sent: 95
+Average latency: 0.0449 seconds
+Minimum latency: 0.0243 seconds
+Maximum latency: 0.1984 seconds
+
+Endpoint: http://10.5.16.212:9050/add_ads
+Requests sent: 91
+Average latency: 0.0409 seconds
+Minimum latency: 0.0276 seconds
+Maximum latency: 0.0766 seconds
+
+Endpoint: http://10.5.16.212:9050/login_2
+Requests sent: 100
+Average latency: 0.0273 seconds
+Minimum latency: 0.0186 seconds
+Maximum latency: 0.0641 seconds
+
+Endpoint: http://10.5.16.212:9050/add_train
+Requests sent: 97
+Average latency: 0.0349 seconds
+Minimum latency: 0.0239 seconds
+Maximum latency: 0.0717 seconds
+
+Endpoint: http://10.5.16.212:9050/cancel_ticket
+Requests sent: 75
+Average latency: 0.0436 seconds
+Minimum latency: 0.0249 seconds
+Maximum latency: 0.1832 seconds
+
+Endpoint: http://10.5.16.212:9050/book_train
+Requests sent: 80
+Average latency: 0.2103 seconds
+Minimum latency: 0.1465 seconds
+Maximum latency: 0.3139 seconds
+
+Endpoint: http://10.5.16.212:9050/search_train
+Requests sent: 98
+Average latency: 0.0709 seconds
+Minimum latency: 0.0408 seconds
+Maximum latency: 0.1524 seconds
+
+Endpoint: http://10.5.16.212:9050/login
+Requests sent: 93
+Average latency: 0.0863 seconds
+Minimum latency: 0.0470 seconds
+Maximum latency: 0.5098 seconds
+
+Endpoint: http://10.5.16.212:9050/register
+Requests sent: 93
+Average latency: 0.0254 seconds
+Minimum latency: 0.0170 seconds
+Maximum latency: 0.0430 seconds
+
+Endpoint: http://10.5.16.212:9050/update_train
+Requests sent: 76
+Average latency: 0.0258 seconds
+Minimum latency: 0.0175 seconds
+Maximum latency: 0.0469 seconds
+
+
+
+
+###########################################################################
+
+
+
+###########################################################################
+10000 req 100 conn
+###########################################################################
+
+
+
+
+###########################################################################
+
+
+
+
+###########################################################################
+10000 req 1000 conn
+###########################################################################
+
+
+
+
+###########################################################################
+
+

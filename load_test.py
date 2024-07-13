@@ -40,8 +40,8 @@ def send_request():
 
 # Main function to run the load test
 def main():
-    num_requests = 1000  # Total number of requests
-    max_workers = 10  # Number of concurrent workers
+    num_requests = 10000  # Total number of requests
+    max_workers = 100  # Number of concurrent workers
 
     c = 0
     with concurrent.futures.ThreadPoolExecutor(max_workers=max_workers) as executor:
